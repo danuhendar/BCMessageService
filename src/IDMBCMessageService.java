@@ -36,8 +36,7 @@ public class IDMBCMessageService {
 	String will_retained;
 	boolean res_will_retained = false;
 	String ip_mongo_db;
-	Global_function gf = new Global_function();
-	Global_variable gv = new Global_variable();
+	Global_function gf = new Global_function(true);
 	Interface_ga inter_login;
 	Connection con;
 	SQLConnection sqlcon = new SQLConnection();
@@ -286,19 +285,17 @@ public class IDMBCMessageService {
 			
 			// ---------------------------- COMMAND -----------------------//
 			int qos_message_command = 0;
-			String topic_bc = gf.getTopic();
-			Boolean show_insert = Boolean.parseBoolean(gf.getTampilkan_query_console());
+			String topic_bc = gf.en.getTopic();
+			Boolean show_insert = Boolean.parseBoolean(gf.en.getTampilkan_query_console());
 			System.out.println("SUBS : "+topic_bc);
 			client_transreport.subscribe(topic_bc, qos_message_command, new IMqttMessageListener() {
 				@Override
 				public void messageArrived(final String topic, final MqttMessage message) throws Exception {
 					// ----------------------------- FILTER TOPIC NOT CONTAINS
 					// -------------------------------//
-					SimpleDateFormat sformat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 					Date HariSekarang = new Date();
 					Date HariSekarang_run = new Date();
 					String payload = new String(message.getPayload());
-					int Qos = message.getQos();
 					String msg_type = "";
 					String message_ADT_Decompress = "";
 					if (topic.equals("BC/REPORT")) {
@@ -327,6 +324,8 @@ public class IDMBCMessageService {
 								Parser_CHAT_MESSAGE, Parser_REMOTE_PATH, Parser_LOCAL_PATH, Parser_SUB_ID, show_insert,
 								"REPLACE", "transreport");
 						
+						String tanggal_jam = gf.get_tanggal_curdate_curtime();
+                    	gf.WriteFile("timemessage.txt", "", tanggal_jam, false);
 						//gf.get_MonitoringResources();
 					}
 				}

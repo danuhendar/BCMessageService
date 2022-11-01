@@ -1,0 +1,2 @@
+======================= Starting IDMReporter =======================
+2022-11-01 09:41:26 - Restart BC_SQL : SUKSES
