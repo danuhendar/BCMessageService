@@ -1,0 +1,13 @@
+[Unit]
+Description=BCMessageService
+
+[Service]
+WorkingDirectory=/root/IDMReporter/BCMessageService
+ExecStart=/usr/bin/java -Xms128m -jar BCMessageService.jar
+User=root
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
