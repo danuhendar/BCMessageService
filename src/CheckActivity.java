@@ -71,8 +71,14 @@ public class CheckActivity {
 			System.err.println("last_message : "+get_last_time_message_incoming+" VS waktu_kini : "+waktu_kini+" Sel. : "+selisih);
 			String selisih_menit = selisih.split(":")[1];
 			if(Integer.parseInt(selisih_menit) > batas_menit) {
-				String command = "systemctl restart BCMessageService_"+kode_cabang;
-				Restart_Service(command, "BCMessageService_"+kode_cabang);
+				if(kode_cabang.equals("")) {
+					String command = "systemctl restart "+gf.en.getId_reporter();
+					Restart_Service(command, gf.en.getId_reporter());
+				}else {
+					String command = "systemctl restart BCMessageService_"+kode_cabang;
+					Restart_Service(command, "BCMessageService_"+kode_cabang);
+				}
+				
 				//RestartIDMReporter_by_service("LISTENER_BACKEND_523/",command,"BC_SQL");
 				Thread.sleep(10000);
 				//System.exit(0);
